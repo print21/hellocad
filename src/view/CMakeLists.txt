@@ -15,12 +15,16 @@ set(ACGVIEW_LIBS
 	Qt5::Gui
 	Qt5::Widgets
 	acg
-    core
+	core
 	common
 )
 
 set(ACGVIEW_SRCS
 	ViewExport.h
+	ViewAdmin.cpp
+	ViewAdmin.h
+	ViewDocument.cpp
+	ViewDocument.h
     ACGViewer.cpp
     ACGViewer.h
     SceneCoordSys.cpp

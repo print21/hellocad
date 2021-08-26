@@ -30,26 +30,15 @@ namespace data
 		//! create document, if doc name is exist, doc rename with current time
 		common::DocumentBase * createDocument(const QString & docName);
 
-		//! activate document
-		void activateDocument(const QString & docName);
-
-		//! get current active document
-		common::DocumentBase * activeDocument() const;
+		//! delete document
+		void deleteDocument(const QString & docName);
 
 		//! get document by name
 		common::DocumentBase * documentByName(const QString & docName);
 
-		//! delete document
-		void deleteDocument(const QString & docName);
-
-		//! clear document
-		void clearDocument();
-
 	Q_SIGNALS:
 		void signalNewDocument(const common::DocumentBase * doc);
 		void signalDeleteDocument(const common::DocumentBase * doc);
-		void signalActiveDocument(const common::DocumentBase * doc);
-		void signalClearDocuments();
 
 	protected:
 		Admin();

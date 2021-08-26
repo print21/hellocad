@@ -15,14 +15,13 @@ namespace data
 	class AdminPrivate
 	{
 	public:
-		AdminPrivate() : _activeDocument(nullptr)
+		AdminPrivate()
 		{
 			;
 		}
 		~AdminPrivate() { ; }
 
 		std::map<QString, DataDocument *> _docMap;
-		DataDocument * _activeDocument;
 
 		void clearDocument()
 		{
@@ -32,7 +31,6 @@ namespace data
 			}
 
 			_docMap.clear();
-			_activeDocument = nullptr;
 		}
 	};
 }
@@ -82,11 +80,7 @@ common::DocumentBase * Admin::createDocument(const QString & docName)
 	newDoc->setDocumentName(docName);
 	d->_docMap.emplace(docName, newDoc);
 
-	d->_activeDocument = newDoc;
-
 	emit signalNewDocument(newDoc);
-
-	emit signalActiveDocument(newDoc);
 
 	return newDoc;
 }
@@ -101,53 +95,11 @@ void Admin::deleteDocument(const QString & docName)
 	}
 
 	DataDocument * doc = it->second;
-	if (d->_activeDocument == doc)
-	{
-		d->_activeDocument = nullptr;
-
-		emit signalActiveDocument(nullptr);
-	}
 
 	emit signalDeleteDocument(doc);
 
 	d->_docMap.erase(it);
 	delete doc;
-}
-
-void Admin::activateDocument(const QString & docName)
-{
-	Q_D(Admin);
-	if (d->_activeDocument != nullptr &&
-		d->_activeDocument->documentName() == docName)
-	{
-		return;
-	}
-
-	auto it = d->_docMap.find(docName);
-	if (it == d->_docMap.end())
-	{
-		d->_activeDocument = nullptr;
-	}
-	else
-	{
-		d->_activeDocument = it->second;
-	}
-
-	emit signalActiveDocument(d->_activeDocument);
-}
-
-common::DocumentBase * Admin::activeDocument() const
-{
-	Q_D(const Admin);
-	return d->_activeDocument;
-}
-
-void Admin::clearDocument()
-{
-	Q_D(Admin);
-	d->clearDocument();
-
-	emit signalClearDocuments();
 }
 
 common::DocumentBase * Admin::documentByName(const QString & docName)

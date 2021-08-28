@@ -21,6 +21,8 @@ set(DATA_SRCS
     DataAdmin.cpp
     DataDocument.h
     DataDocument.cpp
+    DataFeatureBase.h
+    DataFeatureBase.cpp
 )
 
 add_library(data SHARED ${DATA_SRCS})

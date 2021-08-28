@@ -29,6 +29,8 @@ set(ACGVIEW_SRCS
     ACGViewer.h
     SceneCoordSys.cpp
     SceneCoordSys.h
+	ViewFeatureBase.h
+	ViewFeatureBase.cpp
 )
 
 add_library(view SHARED ${ACGVIEW_SRCS})

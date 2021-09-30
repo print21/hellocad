@@ -23,6 +23,8 @@ set(DATA_SRCS
     DataDocument.cpp
     DataFeatureBase.h
     DataFeatureBase.cpp
+    DataPolyMesh.cpp
+    DataPolyMesh.h
 )
 
 add_library(data SHARED ${DATA_SRCS})

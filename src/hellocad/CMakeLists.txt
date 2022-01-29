@@ -35,14 +35,14 @@ include_directories(
 add_executable(HelloCAD ${MAIN_SRCS})
 target_link_libraries(HelloCAD ${MAIN_LIBS})
 
-set_target_properties(HelloCAD PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Build/$<CONFIG>)
-set_target_properties(HelloCAD PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib/$<CONFIG>)
-set_target_properties(HelloCAD PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib/$<CONFIG>)
+set_target_properties(HelloCAD PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/$<CONFIG>)
+set_target_properties(HelloCAD PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/$<CONFIG>)
+set_target_properties(HelloCAD PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/$<CONFIG>)
 
 if(BUILD_VLD)
 add_custom_command(TARGET HelloCADMain POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VLD_RUNTIME_DIR}/dbghelp.dll ${CMAKE_BINARY_DIR}/Build/$<CONFIG>
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VLD_RUNTIME_DIR}/Microsoft.DTfW.DHL.manifest ${CMAKE_BINARY_DIR}/Build/$<CONFIG>
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VLD_RUNTIME_DIR}/vld_x64.dll ${CMAKE_BINARY_DIR}/Build/$<CONFIG>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VLD_RUNTIME_DIR}/dbghelp.dll ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VLD_RUNTIME_DIR}/Microsoft.DTfW.DHL.manifest ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VLD_RUNTIME_DIR}/vld_x64.dll ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
 )
 endif(BUILD_VLD)

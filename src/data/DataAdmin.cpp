@@ -70,7 +70,7 @@ common::DocumentBase * Admin::createDocument(const QString & docName)
 		return nullptr;
 	}
 
-	QObject * newPtr = common::ClassFactory::createObject("ibe::postdata::DataDocument");
+	QObject * newPtr = core::ClassFactory::createObject("ibe::postdata::DataDocument");
 	DataDocument * newDoc = qobject_cast<DataDocument *>(newPtr);
 	if (newDoc == nullptr)
 	{

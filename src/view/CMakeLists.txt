@@ -36,13 +36,13 @@ set(ACGVIEW_SRCS
 add_library(view SHARED ${ACGVIEW_SRCS})
 target_link_libraries(view ${ACGVIEW_LIBS})
 
-set_target_properties(view PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Build/$<CONFIG>)
-set_target_properties(view PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib/$<CONFIG>)
-set_target_properties(view PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib/$<CONFIG>)
+set_target_properties(view PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/$<CONFIG>)
+set_target_properties(view PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/$<CONFIG>)
+set_target_properties(view PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/$<CONFIG>)
 
 add_custom_command(TARGET view POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5Gui$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/Build/$<CONFIG>
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5Widgets$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/Build/$<CONFIG>
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5OpenGL$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/Build/$<CONFIG>
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5Network$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/Build/$<CONFIG>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5Gui$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5Widgets$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5OpenGL$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT5_BIN_DIR}/Qt5Network$<$<CONFIG:Debug>:d>.dll ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
 )

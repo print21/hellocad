@@ -17,8 +17,8 @@ namespace view
 	class ViewDocumentPrivate;
 	class ViewDocument : public common::DocumentBase
 	{
-		Q_OBJECT
-			CLASS_HEADER(view::ViewDocument)
+		Q_OBJECT;
+		CLASS_HEADER(view::ViewDocument);
 	public:
 		ViewDocument();
 		~ViewDocument();

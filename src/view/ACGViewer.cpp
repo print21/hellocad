@@ -52,12 +52,18 @@ ACGViewer::~ACGViewer()
 
 void ACGViewer::addToViewer(ACG::SceneGraph::SeparatorNode * node)
 {
-
+	Q_D(ACGViewer);
+	d->_objectRoot->push_back(node);
 }
 
 void ACGViewer::removeFromViewer(ACG::SceneGraph::SeparatorNode * node)
 {
-
+	Q_D(ACGViewer);
+	ACG::SceneGraph::BaseNode::ChildIter it = d->_objectRoot->find(node);
+	if (it != d->_objectRoot->childrenEnd())
+	{
+		d->_objectRoot->remove(it);
+	}
 }
 
 void ACGViewer::initScene()

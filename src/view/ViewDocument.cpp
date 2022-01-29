@@ -19,7 +19,7 @@ namespace view
 
 using namespace view;
 
-CLASS_SOURCE(view::ViewDocument)
+CLASS_SOURCE(view::ViewDocument);
 
 ViewDocument::ViewDocument()
 	:d_ptr(new ViewDocumentPrivate())

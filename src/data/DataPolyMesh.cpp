@@ -121,18 +121,10 @@ std::vector<PolyMesh::Index> PolyMesh::edgePointIds(Index id) const
 	return std::move(index);
 }
 
-std::vector<PolyMesh::Color> PolyMesh::edgeColor(Index id) const
+PolyMesh::Color PolyMesh::edgeColor(Index id) const
 {
-	auto edgePtIds = edgePointIds(id);
-	std::vector<PolyMesh::Color> colors;
-	colors.reserve(edgePtIds.size());
-
-	for (auto ptId : edgePtIds)
-	{
-		colors.emplace_back(_private->_edgeColors[ptId]);
-	}
-
-	return std::move(colors);
+	assert(id >= 0 && id < edgeCount());
+	return _private->_edgeColors[id];
 }
 
 PolyMesh::Index PolyMesh::faceCount() const
@@ -184,17 +176,9 @@ std::vector<PolyMesh::Vec> PolyMesh::facePointNormal(Index id) const
 	return std::move(normals);
 }
 
-std::vector<PolyMesh::Color> PolyMesh::faceColor(Index id) const
+PolyMesh::Color PolyMesh::faceColor(Index id) const
 {
-	auto facePtIds = edgePointIds(id);
-	std::vector<PolyMesh::Color> colors;
-	colors.reserve(facePtIds.size());
-
-	for (auto ptId : facePtIds)
-	{
-		colors.emplace_back(_private->_faceColors[ptId]);
-	}
-
-	return std::move(colors);
+	assert(id >= 0 && id < faceCount());
+	return _private->_faceColors[id];
 }
 

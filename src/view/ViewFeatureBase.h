@@ -12,7 +12,7 @@ namespace view
 {
 	class ViewFeatureBase : public common::FeatureBase
 	{
-		Q_OBJECT
+		Q_OBJECT;
 		CLASS_HEADER(view::ViewFeatureBase);
 	public:
 		ViewFeatureBase();

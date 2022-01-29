@@ -20,7 +20,7 @@ namespace data
 		typedef int Index;
 		typedef core::VectorT<double, 3> Pnt;
 		typedef core::VectorT<double, 3> Vec;
-		typedef core::VectorT<double, 4> Color;
+		typedef core::Color4T<float> Color;
 
 		//! point
 		//! get points in polygon mesh
@@ -47,7 +47,7 @@ namespace data
 		virtual std::vector<Index> edgePointIds(Index id) const override;
 
 		//! get edge point color by edge id
-		virtual std::vector<Color> edgeColor(Index id) const override;
+		virtual Color edgeColor(Index id) const override;
 
 		//! face
 		//! get faces count
@@ -60,7 +60,7 @@ namespace data
 		virtual std::vector<Vec> facePointNormal(Index id) const override;
 
 		//! get face point color by face id
-		virtual std::vector<Color> faceColor(Index id) const override;
+		virtual Color faceColor(Index id) const override;
 
 	private:
 		std::unique_ptr<PolyMeshPrivate> _private;

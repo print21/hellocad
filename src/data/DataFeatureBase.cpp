@@ -6,14 +6,14 @@
 
 using namespace data;
 
-CLASS_SOURCE_ABSTRACT(data::DataFeatureBase);
+CLASS_SOURCE_ABSTRACT(data::FeatureBase);
 
-DataFeatureBase::DataFeatureBase()
+FeatureBase::FeatureBase()
 {
 	;
 }
 
-DataFeatureBase::~DataFeatureBase()
+FeatureBase::~FeatureBase()
 {
 	;
 }

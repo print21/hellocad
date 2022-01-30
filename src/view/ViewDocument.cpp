@@ -3,38 +3,46 @@
 */
 
 #include "ViewDocument.h"
+#include "ACGViewer.h"
 
 namespace view
 {
-	class ViewDocumentPrivate
+	class DocumentPrivate
 	{
 	public:
-		ViewDocumentPrivate() { ; }
-		~ViewDocumentPrivate() { ; }
+		DocumentPrivate() : _dataDoc(nullptr) { ; }
+		~DocumentPrivate() { ; }
 
 		const common::DocumentBase * _dataDoc;
-		//std::map<const common::FeatureBase *, ViewObjectBase*> _objectMap;
+		QScopedPointer<ACGViewer> _acgViewer;
 	};
 }
 
 using namespace view;
 
-CLASS_SOURCE(view::ViewDocument);
+CLASS_SOURCE(view::Document);
 
-ViewDocument::ViewDocument()
-	:d_ptr(new ViewDocumentPrivate())
+Document::Document()
+	:d_ptr(new DocumentPrivate())
+{
+	Q_D(Document);
+	d->_acgViewer.reset(new ACGViewer());
+}
+
+Document::~Document()
 {
 
 }
 
-ViewDocument::~ViewDocument()
+ACGViewer* Document::acgViewer() const
 {
-
+	Q_D(const Document);
+	return d->_acgViewer.get();
 }
 
-void ViewDocument::attach(const common::DocumentBase * dataDoc)
+void Document::attach(const common::DocumentBase * dataDoc)
 {
-	Q_D(ViewDocument);
+	Q_D(Document);
 	Q_ASSERT(d->_dataDoc == nullptr);
 
 	d->_dataDoc = dataDoc;
@@ -43,9 +51,9 @@ void ViewDocument::attach(const common::DocumentBase * dataDoc)
 	//connect signals
 }
 
-const common::DocumentBase * ViewDocument::dataDocument() const
+const common::DocumentBase * Document::dataDocument() const
 {
-	Q_D(const ViewDocument);
+	Q_D(const Document);
 	return d->_dataDoc;
 }
 

@@ -5,11 +5,11 @@
 #include "DataAdmin.h"
 
 #include "DataDocument.h"
+#include "DataFeatureBase.h"
+#include "DataCubeFeature.h"
 
 namespace data
 {
-	class DataDocument;
-
 	QScopedPointer<Admin> Admin::_ptr(nullptr);
 
 	class AdminPrivate
@@ -21,7 +21,7 @@ namespace data
 		}
 		~AdminPrivate() { ; }
 
-		std::map<QString, DataDocument *> _docMap;
+		std::map<QString, Document *> _docMap;
 
 		void clearDocument()
 		{
@@ -53,6 +53,10 @@ void Admin::init()
 {
 	Q_ASSERT(Admin::_ptr == nullptr);
 	Admin::_ptr.reset(new Admin());
+
+	data::Document::init();
+	data::FeatureBase::init();
+	data::CubeFeature::init();
 }
 
 Admin & Admin::instance()
@@ -70,8 +74,8 @@ common::DocumentBase * Admin::createDocument(const QString & docName)
 		return nullptr;
 	}
 
-	QObject * newPtr = core::ClassFactory::createObject("ibe::postdata::DataDocument");
-	DataDocument * newDoc = qobject_cast<DataDocument *>(newPtr);
+	QObject * newPtr = core::ClassFactory::createObject("data::Document");
+	Document* newDoc = qobject_cast<Document *>(newPtr);
 	if (newDoc == nullptr)
 	{
 		return nullptr;
@@ -94,7 +98,7 @@ void Admin::deleteDocument(const QString & docName)
 		return;
 	}
 
-	DataDocument * doc = it->second;
+	Document * doc = it->second;
 
 	emit signalDeleteDocument(doc);
 

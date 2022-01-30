@@ -10,9 +10,15 @@
 
 #include "MainWindow.h"
 
+#include <data/DataAdmin.h>
+#include <view/ViewAdmin.h>
+
 int main(int argc, char ** argv)
 {
 	QApplication app(argc, argv);
+
+	data::Admin::init();
+	view::Admin::init();
 
 	hellocad::MainWindow mw;
 	mw.show();

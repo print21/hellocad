@@ -15,7 +15,15 @@ set(DATA_LIBS
 	common
 )
 
+set(FEATURE_SRCS
+    DataCubeFeature.cpp
+    DataCubeFeature.h
+)
+
+source_group("Features" FILES ${FEATURE_SRCS})
+
 set(DATA_SRCS
+    ${FEATURE_SRCS}
     DataExport.h
     DataAdmin.h
     DataAdmin.cpp

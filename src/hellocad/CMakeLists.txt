@@ -6,6 +6,7 @@ set(MAIN_LIBS
 	acg
     core
 	common
+	data
 	view
 )
 

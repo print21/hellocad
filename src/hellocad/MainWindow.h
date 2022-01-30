@@ -18,6 +18,15 @@ namespace hellocad
 		~MainWindow();
 
 	protected:
+		void initToolBar();
+
+		virtual void closeEvent(QCloseEvent* event) override;
+
+	protected Q_SLOTS:
+		void slotNewDocument();
+		void slotCreateCube();
+
+	protected:
 		Q_DECLARE_PRIVATE(MainWindow);
 		QScopedPointer<MainWindowPrivate> d_ptr;
 	};

@@ -6,11 +6,11 @@
 
 namespace data
 {
-	class DataDocumentPrivate
+	class DocumentPrivate
 	{
 	public:
-		DataDocumentPrivate() { ; }
-		~DataDocumentPrivate() { ; }
+		DocumentPrivate() { ; }
+		~DocumentPrivate() { ; }
 
 		QString _docName;
 	};
@@ -18,23 +18,25 @@ namespace data
 
 using namespace data;
 
-DataDocument::DataDocument()
-	: d_ptr(new DataDocumentPrivate())
+CLASS_SOURCE(data::Document);
+
+Document::Document()
+	: d_ptr(new DocumentPrivate())
 {
 }
 
-DataDocument::~DataDocument()
+Document::~Document()
 {
 }
 
-void DataDocument::setDocumentName(const QString & name)
+void Document::setDocumentName(const QString & name)
 {
-	Q_D(DataDocument);
+	Q_D(Document);
 	d->_docName = name;
 }
 
-const QString & DataDocument::documentName()
+const QString & Document::documentName()
 {
-	Q_D(DataDocument);
+	Q_D(Document);
 	return d->_docName;
 }

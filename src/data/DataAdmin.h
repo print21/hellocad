@@ -17,12 +17,11 @@ namespace common
 namespace data
 {
 	class AdminPrivate;
-	class Admin : public QObject
+	class DATA_EXPORT Admin : public QObject
 	{
 		Q_OBJECT
 	public:
 		~Admin();
-
 
 		static void init();
 		static Admin & instance();

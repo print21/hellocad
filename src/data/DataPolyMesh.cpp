@@ -18,23 +18,14 @@ namespace data
 		//! vertex point id container
 		std::vector<PolyMesh::Index> _vertexIds;
 
-		//! vertex color container
-		std::vector<PolyMesh::Color> _vertexColors;
-
 		//! edge point index value
 		std::vector<PolyMesh::Index> _edgeIdValue;
-
-		//! edge point color
-		std::vector<PolyMesh::Color> _edgeColors;
 
 		//! edge index range in edgeIdValue(size = edge count + 1)
 		std::vector<PolyMesh::Index> _edgeIdStart;
 
 		//! face point index value
 		std::vector<PolyMesh::Index> _faceIdValue;
-
-		//! face point color
-		std::vector<PolyMesh::Color> _faceColors;
 
 		//! face point normal
 		std::vector<PolyMesh::Vec> _faceNormals;
@@ -69,6 +60,8 @@ const PolyMesh::Pnt & PolyMesh::point(Index id) const
 	return _private->_points[id];
 }
 
+//////////////////////////////////////////////////////////////////////////
+
 PolyMesh::Index PolyMesh::vertexCount() const
 {
 	return static_cast<Index>(_private->_vertexIds.size());
@@ -80,11 +73,7 @@ PolyMesh::Index PolyMesh::vertexPointId(Index id) const
 	return _private->_vertexIds[id];
 }
 
-PolyMesh::Color PolyMesh::vertexColor(Index id) const
-{
-	assert(id >= 0 && id < _private->_vertexColors.size());
-	return _private->_vertexColors[id];
-}
+//////////////////////////////////////////////////////////////////////////
 
 PolyMesh::Index PolyMesh::edgeCount() const
 {
@@ -121,11 +110,7 @@ std::vector<PolyMesh::Index> PolyMesh::edgePointIds(Index id) const
 	return std::move(index);
 }
 
-PolyMesh::Color PolyMesh::edgeColor(Index id) const
-{
-	assert(id >= 0 && id < edgeCount());
-	return _private->_edgeColors[id];
-}
+//////////////////////////////////////////////////////////////////////////
 
 PolyMesh::Index PolyMesh::faceCount() const
 {
@@ -164,21 +149,77 @@ std::vector<PolyMesh::Index> PolyMesh::facePointIds(Index id) const
 
 std::vector<PolyMesh::Vec> PolyMesh::facePointNormal(Index id) const
 {
-	auto facePtIds = edgePointIds(id);
 	std::vector<PolyMesh::Vec> normals;
-	normals.reserve(facePtIds.size());
 
-	for (auto ptId : facePtIds)
+	if (!_private->_faceNormals.empty())
 	{
-		normals.emplace_back(_private->_faceNormals[ptId]);
+		auto facePtIds = facePointIds(id);
+		normals.reserve(facePtIds.size());
+
+		for (auto ptId : facePtIds)
+		{
+			normals.emplace_back(_private->_faceNormals[ptId]);
+		}
 	}
 
 	return std::move(normals);
 }
 
-PolyMesh::Color PolyMesh::faceColor(Index id) const
+//////////////////////////////////////////////////////////////////////////
+void PolyMesh::setPolyMesh(const std::vector<Pnt>& points, const std::vector<Index>& vertex, const std::vector<Index>& edges, const std::vector<Index>& polys)
 {
-	assert(id >= 0 && id < faceCount());
-	return _private->_faceColors[id];
+	// points
+	_private->_points.clear();
+	_private->_points.reserve(points.size());
+	_private->_points.insert(_private->_points.end(), points.end(), points.end());
+
+	// vertex
+	_private->_vertexIds.clear();
+	_private->_vertexIds.reserve(vertex.size());
+	_private->_vertexIds.insert(_private->_vertexIds.end(), vertex.begin(), vertex.end());
+
+	// edge
+	_private->_edgeIdStart.clear();
+	_private->_edgeIdValue.clear();
+	_private->_edgeIdValue.reserve(edges.size());
+	_private->_edgeIdStart.push_back(static_cast<int>(_private->_edgeIdValue.size()));
+	for (size_t e = 0; e < edges.size(); ++e)
+	{
+		if (edges[e] < 0)
+		{
+			_private->_edgeIdStart.push_back(static_cast<int>(_private->_edgeIdValue.size()));
+		}
+		else
+		{
+			_private->_edgeIdValue.push_back(edges[e]);
+		}
+	}
+
+	if (edges.back() >= 0)
+	{
+		_private->_edgeIdStart.push_back(static_cast<int>(_private->_edgeIdValue.size()));
+	}
+
+	// polys
+	_private->_faceIdStart.clear();
+	_private->_faceIdValue.clear();
+	_private->_faceIdValue.reserve(polys.size());
+	_private->_faceIdStart.push_back(static_cast<int>(_private->_faceIdValue.size()));
+	for (size_t f = 0; f < polys.size(); ++f)
+	{
+		if (polys[f] < 0)
+		{
+			_private->_faceIdStart.push_back(static_cast<int>(_private->_faceIdValue.size()));
+		}
+		else
+		{
+			_private->_faceIdValue.push_back(polys[f]);
+		}
+	}
+
+	if (polys.back() >= 0)
+	{
+		_private->_faceIdStart.push_back(static_cast<int>(_private->_faceIdValue.size()));
+	}
 }
 

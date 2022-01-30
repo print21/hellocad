@@ -9,13 +9,13 @@
 
 namespace data
 {
-	class DataFeatureBase :public common::FeatureBase
+	class FeatureBase :public common::FeatureBase
 	{
-		Q_OBJECT
-		CLASS_HEADER(data::DataFeatureBase)
+		Q_OBJECT;
+		CLASS_HEADER(data::FeatureBase);
 	public:
-		DataFeatureBase();
-		~DataFeatureBase();
+		FeatureBase();
+		~FeatureBase();
 
 		virtual core::PolyMesh * polyMesh() const = 0;
 	};

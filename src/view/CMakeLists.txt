@@ -17,6 +17,7 @@ set(ACGVIEW_LIBS
 	acg
 	core
 	common
+	data
 )
 
 set(ACGVIEW_SRCS

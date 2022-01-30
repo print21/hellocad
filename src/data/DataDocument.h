@@ -10,14 +10,14 @@
 
 namespace data
 {
-	class DataDocumentPrivate;
-	class DataDocument : public common::DocumentBase
+	class DocumentPrivate;
+	class DATA_EXPORT Document : public common::DocumentBase
 	{
-		Q_OBJECT
-		CLASS_HEADER(data::DataDocument)
+		Q_OBJECT;
+		CLASS_HEADER(data::Document);
 	public:
-		DataDocument();
-		~DataDocument();
+		Document();
+		~Document();
 
 		const QString & documentName();
 
@@ -26,8 +26,8 @@ namespace data
 
 	private:
 		friend class Admin;
-		Q_DECLARE_PRIVATE(DataDocument);
-		const QScopedPointer<DataDocumentPrivate> d_ptr;
+		Q_DECLARE_PRIVATE(Document);
+		const QScopedPointer<DocumentPrivate> d_ptr;
 	};
 }
 

@@ -4,6 +4,7 @@
 
 #include "ViewAdmin.h"
 #include "ViewDocument.h"
+#include "ViewPolyFeature.h"
 
 #include <data/DataAdmin.h>
 
@@ -39,7 +40,9 @@ void Admin::init()
 	Q_ASSERT(Admin::_ptr == nullptr);
 	Admin::_ptr.reset(new Admin());
 
-	//connect signals
+	Document::init();
+	ViewFeatureBase::init();
+	ViewPolyFeature::init();
 }
 
 Admin & Admin::instance()

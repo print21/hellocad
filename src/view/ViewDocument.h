@@ -10,6 +10,7 @@
 
 namespace common
 {
+	class DocumentBase;
 	class FeatureBase;
 	class AttributeBase;
 }
@@ -32,6 +33,11 @@ namespace view
 		const common::DocumentBase * dataDocument() const;
 
 		ACGViewer* acgViewer() const;
+
+	protected Q_SLOTS:
+		void slotAppendDataFeature(const common::DocumentBase* caller, const common::FeatureBase* obj);
+		void slotRemoveDataFeature(const common::DocumentBase* caller, const common::FeatureBase* obj);
+		void slotAfterDataUpdate(const common::DocumentBase* caller);
 
 	protected:
 		friend class Admin;

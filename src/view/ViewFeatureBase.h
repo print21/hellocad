@@ -4,13 +4,23 @@
 
 #pragma once
 
+#include "ViewExport.h"
+
 #include <common/FeatureBase.h>
 
-#include <acg/Scenegraph/SeparatorNode.hh>
+namespace ACG
+{
+	namespace SceneGraph
+	{
+		class SeparatorNode;
+	}
+}
 
 namespace view
 {
-	class ViewFeatureBase : public common::FeatureBase
+	class Document;
+
+	class VIEW_EXPORT ViewFeatureBase : public common::FeatureBase
 	{
 		Q_OBJECT;
 		CLASS_HEADER(view::ViewFeatureBase);
@@ -18,7 +28,15 @@ namespace view
 		ViewFeatureBase();
 		~ViewFeatureBase();
 
-		virtual ACG::SceneGraph::SeparatorNode * rootNode() const = 0;
+		virtual ACG::SceneGraph::SeparatorNode* rootNode() const = 0;
+
+	protected:
+		virtual void attachDataFeature(const common::FeatureBase* data);
+		virtual bool excute() override;
+
+	protected:
+		friend class view::Document;
+		const common::FeatureBase* _data;
 	};
 }
 

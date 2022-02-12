@@ -18,7 +18,9 @@ SceneCoordSys::SceneCoordSys()
 
 SceneCoordSys::~SceneCoordSys()
 {
-
+	delete _rootNode;
+	delete _coordsysNode;
+	delete _coordsysMaterial;
 }
 
 void SceneCoordSys::addToScene(ACG::SceneGraph::SeparatorNode * root)

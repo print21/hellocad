@@ -4,21 +4,25 @@ find_package(Qt5 COMPONENTS Core Gui Widgets)
 
 set(MAIN_LIBS
 	acg
-    core
+	core
 	common
 	data
 	view
 )
 
 set(MAIN_SRCS
-    main.cpp
+	main.cpp
 	MainWindow.cpp
 	MainWindow.h
+	TreeItems.cpp
+	TreeItems.h
+	TreeView.cpp
+	TreeView.h
 )
 
 set(MAIN_INC
-    ${CMAKE_SOURCE_DIR}/Src
-    ${CMAKE_SOURCE_DIR}/Src/kernel
+	${CMAKE_SOURCE_DIR}/Src
+	${CMAKE_SOURCE_DIR}/Src/kernel
 )
 
 add_definitions(-D_USE_MATH_DEFINES)

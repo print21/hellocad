@@ -3,6 +3,7 @@
  */
 
 #include "MainWindow.h"
+#include "TreeView.h"
 
 #include <common/DocumentBase.h>
 #include <data/DataAdmin.h>
@@ -14,6 +15,8 @@
 #include <QAction>
 #include <QToolBar>
 #include <QDebug>
+#include <QTabWidget>
+#include <QDockWidget>
 
 namespace hellocad
 {
@@ -24,6 +27,8 @@ namespace hellocad
 		~MainWindowPrivate() { ; }
 
 		QString _currentDocName;
+		TreeView* _treeView;
+		QTabWidget* _centerView;
 	};
 }
 
@@ -36,12 +41,29 @@ MainWindow::MainWindow(QWidget * parent /*= nullptr*/)
 
 	this->initToolBar();
 
+	this->initWindow();
+
 	this->resize(1024, 768);
 }
 
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::initWindow()
+{
+	Q_D(MainWindow);
+	d->_centerView = new QTabWidget(this);
+	this->setCentralWidget(d->_centerView);
+
+	QDockWidget* treeDock = new QDockWidget(QString::fromUtf8("Project"), this);
+	treeDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+	d->_treeView = new TreeView(this);
+	treeDock->setWidget(d->_treeView);
+
+	this->addDockWidget(Qt::LeftDockWidgetArea, treeDock);
 }
 
 void MainWindow::initToolBar()
@@ -62,10 +84,11 @@ void MainWindow::initToolBar()
 
 void MainWindow::slotNewDocument()
 {
-	data::Document * doc = dynamicCast<data::Document>(data::Admin::instance().createDocument("document"));
+	data::Document * doc = dynamicCast<data::Document>(data::Admin::instance().createDocument("Document"));
 	if (doc == nullptr)
 	{
 		qDebug() << "Create new document failed";
+		return;
 	}
 
 	Q_D(MainWindow);
@@ -77,7 +100,15 @@ void MainWindow::slotNewDocument()
 
 void MainWindow::slotCreateCube()
 {
-	qDebug() << "New cube";
+	Q_D(MainWindow);
+	data::Document* doc = dynamicCast<data::Document>(data::Admin::instance().documentByName(d->_currentDocName));
+	if (doc == nullptr)
+	{
+		return;
+	}
+
+	doc->appendFeature("data::CubeFeature");
+	doc->update();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

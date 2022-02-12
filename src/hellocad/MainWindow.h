@@ -18,6 +18,8 @@ namespace hellocad
 		~MainWindow();
 
 	protected:
+		void initWindow();
+
 		void initToolBar();
 
 		virtual void closeEvent(QCloseEvent* event) override;

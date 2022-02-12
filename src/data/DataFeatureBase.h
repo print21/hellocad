@@ -4,12 +4,14 @@
 
 #pragma once
 
+#include "DataExport.h"
+
 #include <core/PolyMesh.h>
 #include <common/FeatureBase.h>
 
 namespace data
 {
-	class FeatureBase :public common::FeatureBase
+	class DATA_EXPORT FeatureBase :public common::FeatureBase
 	{
 		Q_OBJECT;
 		CLASS_HEADER(data::FeatureBase);

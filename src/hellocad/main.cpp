@@ -10,6 +10,7 @@
 
 #include "MainWindow.h"
 
+#include <common/CommonAdmin.h>
 #include <data/DataAdmin.h>
 #include <view/ViewAdmin.h>
 
@@ -17,6 +18,7 @@ int main(int argc, char ** argv)
 {
 	QApplication app(argc, argv);
 
+	common::Admin::init();
 	data::Admin::init();
 	view::Admin::init();
 

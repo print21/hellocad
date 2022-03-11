@@ -10,17 +10,26 @@ set(MAIN_LIBS
 	view
 )
 
+set(WINDOW_SRCS
+	TreeView.cpp
+	TreeView.h
+	TreeItems.cpp
+	TreeItems.h
+	AttributeView.cpp
+	AttributeView.h
+)
+
+source_group("window" FILES ${WINDOW_SRCS})
+
 set(MAIN_SRCS
+	${WINDOW_SRCS}
 	main.cpp
 	MainWindow.cpp
 	MainWindow.h
-	TreeItems.cpp
-	TreeItems.h
-	TreeView.cpp
-	TreeView.h
 )
 
 set(MAIN_INC
+	${OPENMESH_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}/Src
 	${CMAKE_SOURCE_DIR}/Src/kernel
 )

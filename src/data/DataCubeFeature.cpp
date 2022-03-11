@@ -3,10 +3,8 @@
  */
 
 #include "DataCubeFeature.h"
-#include "DataPolyMesh.h"
 
 #include <core/VectorT.h>
-
 #include <common/AttributeReal.h>
 
 using namespace data;
@@ -14,6 +12,7 @@ using namespace data;
 CLASS_SOURCE(data::CubeFeature);
 
 CubeFeature::CubeFeature()
+	:_triMesh(nullptr)
 {
 	this->insertAttribute("Length", "common::AttributeReal", 10.0);
 	this->insertAttribute("Width", "common::AttributeReal", 10.0);
@@ -25,16 +24,20 @@ CubeFeature::~CubeFeature()
 
 }
 
-core::PolyMesh* CubeFeature::polyMesh() const
+core::TriMesh* CubeFeature::triangleMesh() const
 {
-	return _cubeMesh.get();
+	return _triMesh.get();
 }
 
 bool CubeFeature::excute()
 {
-	if (_cubeMesh == nullptr)
+	if (_triMesh == nullptr)
 	{
-		_cubeMesh = std::make_unique<data::PolyMesh>();
+		_triMesh = std::make_unique<core::TriMesh>();
+	}
+	else
+	{
+		_triMesh->clear();
 	}
 
 	common::AttributeReal* lengthAttr = this->attribute<common::AttributeReal>("Length");
@@ -46,13 +49,7 @@ bool CubeFeature::excute()
 	double height = heightAttr->value();
 
 	std::vector<core::Vec3d> points;
-	std::vector<int> edges;
-	std::vector<int> faces;
-
 	points.reserve(8);
-	edges.reserve(36);
-	faces.reserve(30);
-
 	points.emplace_back(0, 0, 0);
 	points.emplace_back(length, 0, 0);
 	points.emplace_back(length, width, 0);
@@ -62,92 +59,31 @@ bool CubeFeature::excute()
 	points.emplace_back(0, width, height);
 	points.emplace_back(0, width, height);
 
-	edges.emplace_back(0);
-	edges.emplace_back(1);
-	edges.emplace_back(-1);
+	std::vector<core::TriMesh::VertexHandle> vhs;
+	vhs.reserve(8);
+	for (const auto & v : points)
+	{
+		core::TriMesh::VertexHandle vh = _triMesh->add_vertex(core::TriMesh::Point(v.data()));
+		vhs.push_back(vh);
+	}
 
-	edges.emplace_back(1);
-	edges.emplace_back(2);
-	edges.emplace_back(-1);
+	_triMesh->add_face(vhs[0], vhs[3], vhs[2]);
+	_triMesh->add_face(vhs[2], vhs[1], vhs[0]);
 
-	edges.emplace_back(2);
-	edges.emplace_back(3);
-	edges.emplace_back(-1);
+	_triMesh->add_face(vhs[4], vhs[5], vhs[6]);
+	_triMesh->add_face(vhs[6], vhs[7], vhs[4]);
 
-	edges.emplace_back(3);
-	edges.emplace_back(0);
-	edges.emplace_back(-1);
-	//////////////////////////////////////////////////////////////////////////
-	edges.emplace_back(4);
-	edges.emplace_back(5);
-	edges.emplace_back(-1);
+	_triMesh->add_face(vhs[0], vhs[1], vhs[5]);
+	_triMesh->add_face(vhs[5], vhs[4], vhs[0]);
 
-	edges.emplace_back(5);
-	edges.emplace_back(6);
-	edges.emplace_back(-1);
+	_triMesh->add_face(vhs[1], vhs[2], vhs[6]);
+	_triMesh->add_face(vhs[6], vhs[5], vhs[1]);
 
-	edges.emplace_back(6);
-	edges.emplace_back(7);
-	edges.emplace_back(-1);
+	_triMesh->add_face(vhs[2], vhs[3], vhs[7]);
+	_triMesh->add_face(vhs[7], vhs[6], vhs[2]);
 
-	edges.emplace_back(7);
-	edges.emplace_back(4);
-	edges.emplace_back(-1);
-	//////////////////////////////////////////////////////////////////////////
-	edges.emplace_back(0);
-	edges.emplace_back(4);
-	edges.emplace_back(-1);
-
-	edges.emplace_back(1);
-	edges.emplace_back(5);
-	edges.emplace_back(-1);
-
-	edges.emplace_back(2);
-	edges.emplace_back(6);
-	edges.emplace_back(-1);
-
-	edges.emplace_back(3);
-	edges.emplace_back(7);
-	edges.emplace_back(-1);
-
-	//////////////////////////////////////////////////////////////////////////
-	faces.emplace_back(0);
-	faces.emplace_back(3);
-	faces.emplace_back(2);
-	faces.emplace_back(1);
-	faces.emplace_back(-1);
-
-	faces.emplace_back(4);
-	faces.emplace_back(5);
-	faces.emplace_back(6);
-	faces.emplace_back(7);
-	faces.emplace_back(-1);
-
-	faces.emplace_back(0);
-	faces.emplace_back(1);
-	faces.emplace_back(5);
-	faces.emplace_back(4);
-	faces.emplace_back(-1);
-
-	faces.emplace_back(1);
-	faces.emplace_back(2);
-	faces.emplace_back(6);
-	faces.emplace_back(5);
-	faces.emplace_back(-1);
-
-	faces.emplace_back(2);
-	faces.emplace_back(3);
-	faces.emplace_back(7);
-	faces.emplace_back(6);
-	faces.emplace_back(-1);
-
-	faces.emplace_back(3);
-	faces.emplace_back(0);
-	faces.emplace_back(4);
-	faces.emplace_back(7);
-	faces.emplace_back(-1);
-
-	static_cast<data::PolyMesh*>(_cubeMesh.get())->setPolyMesh(points, {}, edges, faces);
+	_triMesh->add_face(vhs[3], vhs[0], vhs[4]);
+	_triMesh->add_face(vhs[4], vhs[7], vhs[3]);
 
 	return true;
 }

@@ -76,7 +76,7 @@ const data::Document* DocumentItem::document() const
 
 //////////////////////////////////////////////////////////////////////////
 
-FeatureItemObject::FeatureItemObject(data::FeatureBase* feat, QObject* parent /*= nullptr*/)
+FeatureItemObject::FeatureItemObject(data::FeatureBase* feat, FeatureItem* item, QObject* parent /*= nullptr*/)
 	:QObject(nullptr), _feature(feat)
 {
 
@@ -90,7 +90,7 @@ FeatureItemObject::~FeatureItemObject()
 //////////////////////////////////////////////////////////////////////////
 
 FeatureItem::FeatureItem(data::FeatureBase* feat, QTreeWidgetItem* item)
-	:_object(new FeatureItemObject(feat)), QTreeWidgetItem(item, FEATURE_ITEM)
+	:_object(new FeatureItemObject(feat, this)), QTreeWidgetItem(item, FEATURE_ITEM)
 {
 	this->setText(0, QString::number(feat->id()));
 	this->setText(1, QString::number(feat->id()));

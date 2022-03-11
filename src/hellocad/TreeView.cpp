@@ -30,6 +30,7 @@ TreeView::TreeView(QWidget* parent)
 	this->header()->setStretchLastSection(true);
 	this->setHeaderHidden(false);
 
+	connect(this, &QTreeWidget::itemSelectionChanged, this, &TreeView::slotItemSelectChanged);
 	connect(&(data::Admin::instance()), &data::Admin::signalNewDocument, this, &TreeView::slotNewDocument);
 }
 
@@ -49,5 +50,37 @@ void TreeView::slotNewDocument(const common::DocumentBase* doc)
 	DocumentItem* docItem = new DocumentItem(const_cast<data::Document*>(dataDoc), this);
 	this->addTopLevelItem(docItem);
 	this->expandItem(docItem);
+}
+
+void TreeView::slotItemSelectChanged()
+{
+	QList<QTreeWidgetItem*> selItems = this->selectedItems();
+	QList<DocumentItem*> docItems;
+	QList<FeatureItem*> featItems;
+
+	for (int i = 0; i < selItems.size(); ++i)
+	{
+		QTreeWidgetItem* item = selItems.at(i);
+		if (item->type() == DOCUMENT_ITEM)
+		{
+			docItems.append(static_cast<DocumentItem*>(item));
+		}
+		else if (item->type() == FEATURE_ITEM)
+		{
+			featItems.append(static_cast<FeatureItem*>(item));
+		}
+	}
+
+	if (!docItems.empty())
+	{
+		//todo;
+		return;
+	}
+
+	if (!featItems.empty())
+	{
+		//todo;
+		return;
+	}
 }
 

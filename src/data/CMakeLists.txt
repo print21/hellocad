@@ -5,14 +5,15 @@ find_package(Qt5 COMPONENTS Core)
 add_definitions(-DDATA_LIB)
 
 include_directories(
+    ${OPENMESH_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/Src
     ${CMAKE_SOURCE_DIR}/Src/kernel
 )
 
 set(DATA_LIBS
-	Qt5::Core
-	core
-	common
+    Qt5::Core
+    core
+    common
 )
 
 set(FEATURE_SRCS
@@ -31,8 +32,6 @@ set(DATA_SRCS
     DataDocument.cpp
     DataFeatureBase.h
     DataFeatureBase.cpp
-    DataPolyMesh.cpp
-    DataPolyMesh.h
 )
 
 add_library(data SHARED ${DATA_SRCS})

@@ -16,12 +16,12 @@ namespace data
 		CubeFeature();
 		~CubeFeature();
 
-		virtual core::PolyMesh* polyMesh() const override;
+		virtual core::TriMesh* triangleMesh() const override;
 
 	protected:
 		virtual bool excute() override;
 
 	protected:
-		std::unique_ptr<core::PolyMesh> _cubeMesh;
+		std::unique_ptr<core::TriMesh> _triMesh;
 	};
 }

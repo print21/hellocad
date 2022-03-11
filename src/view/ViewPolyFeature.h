@@ -6,6 +6,19 @@
 
 #include "ViewFeatureBase.h"
 
+namespace ACG
+{
+	namespace SceneGraph
+	{
+		class MaterialNode;
+		class TriangleNode;
+#if 0
+		class MeshNodeBase;
+		class ShaderNode;
+#endif
+	}
+}
+
 namespace view
 {
 	class ViewPolyFeature : public ViewFeatureBase
@@ -24,7 +37,13 @@ namespace view
 		virtual bool excute() override;
 
 	protected:
-		ACG::SceneGraph::SeparatorNode* _rootNode;
+		ACG::SceneGraph::SeparatorNode * _rootNode;
+		ACG::SceneGraph::MaterialNode* _materialNode;
+		ACG::SceneGraph::TriangleNode* _triangleNode;
+#if 0
+		ACG::SceneGraph::MeshNodeBase* _meshNode;
+		ACG::SceneGraph::ShaderNode* _shaderNode;
+#endif
 	};
 }
 

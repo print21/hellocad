@@ -4,6 +4,7 @@
 
 #include "MainWindow.h"
 #include "TreeView.h"
+#include "AttributeView.h"
 
 #include <common/DocumentBase.h>
 #include <data/DataAdmin.h>
@@ -27,8 +28,11 @@ namespace hellocad
 		~MainWindowPrivate() { ; }
 
 		QString _currentDocName;
-		TreeView* _treeView;
 		QTabWidget* _centerView;
+
+		TreeView* _treeView;
+
+		AttributeView* _attributeView;
 	};
 }
 
@@ -57,13 +61,25 @@ void MainWindow::initWindow()
 	d->_centerView = new QTabWidget(this);
 	this->setCentralWidget(d->_centerView);
 
-	QDockWidget* treeDock = new QDockWidget(QString::fromUtf8("Project"), this);
-	treeDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	{
+		QDockWidget* dock = new QDockWidget(QString::fromUtf8("Project"), this);
+		dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
-	d->_treeView = new TreeView(this);
-	treeDock->setWidget(d->_treeView);
+		d->_treeView = new TreeView(this);
+		dock->setWidget(d->_treeView);
 
-	this->addDockWidget(Qt::LeftDockWidgetArea, treeDock);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+	}
+
+	{
+		QDockWidget* dock = new QDockWidget(QString::fromUtf8("Attribute"), this);
+		dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+		d->_attributeView = new AttributeView(this);
+		dock->setWidget(d->_attributeView);
+
+		this->addDockWidget(Qt::RightDockWidgetArea, dock);
+	}
 }
 
 void MainWindow::initToolBar()

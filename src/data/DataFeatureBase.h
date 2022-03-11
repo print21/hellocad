@@ -19,6 +19,6 @@ namespace data
 		FeatureBase();
 		~FeatureBase();
 
-		virtual core::PolyMesh * polyMesh() const = 0;
+		virtual core::TriMesh* triangleMesh() const = 0;
 	};
 }

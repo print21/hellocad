@@ -68,9 +68,10 @@ namespace hellocad
 
 	protected:
 		friend class FeatureItem;
-		FeatureItemObject(data::FeatureBase * feat, QObject* parent = nullptr);
+		FeatureItemObject(data::FeatureBase * feat, FeatureItem * item, QObject* parent = nullptr);
 
 	protected:
+		FeatureItem* _item;
 		data::FeatureBase* _feature;
 	};
 

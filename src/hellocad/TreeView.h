@@ -21,6 +21,7 @@ namespace hellocad
 		~TreeView();
 
 	protected Q_SLOTS:
+		void slotItemSelectChanged();
 		void slotNewDocument(const common::DocumentBase* doc);
 	};
 }

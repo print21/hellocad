@@ -16,7 +16,7 @@
 
 namespace view
 {
-	typedef ACG::SceneGraph::MeshNodeT<core::TriMesh> TriMeshNode;
+	typedef ACG::SceneGraph::MeshNodeT<core::PolyMesh> TriMeshNode;
 }
 
 using namespace view;
@@ -104,7 +104,7 @@ bool ViewPolyFeature::excute()
 	}
 	
 	_triangleNode->clear();
-	core::TriMesh* mesh = data->triangleMesh();
+	core::PolyMesh* mesh = data->triangleMesh();
 	if (mesh == nullptr)
 	{
 		return false;
@@ -116,7 +116,7 @@ bool ViewPolyFeature::excute()
 		pnts.reserve(3);
 		for (auto vit = mesh->fv_begin(it), vitend = mesh->fv_end(it); vit != vitend; ++vit)
 		{
-			const core::TriMesh::Point & pt = mesh->point(vit);
+			const core::PolyMesh::Point & pt = mesh->point(vit);
 			pnts.emplace_back(pt[0], pt[1], pt[2]);
 		}
 

@@ -24,7 +24,7 @@ CubeFeature::~CubeFeature()
 
 }
 
-core::TriMesh* CubeFeature::triangleMesh() const
+core::PolyMesh* CubeFeature::triangleMesh() const
 {
 	return _triMesh.get();
 }
@@ -33,7 +33,7 @@ bool CubeFeature::excute()
 {
 	if (_triMesh == nullptr)
 	{
-		_triMesh = std::make_unique<core::TriMesh>();
+		_triMesh = std::make_unique<core::PolyMesh>();
 	}
 	else
 	{
@@ -59,11 +59,11 @@ bool CubeFeature::excute()
 	points.emplace_back(0, width, height);
 	points.emplace_back(0, width, height);
 
-	std::vector<core::TriMesh::VertexHandle> vhs;
+	std::vector<core::PolyMesh::VertexHandle> vhs;
 	vhs.reserve(8);
 	for (const auto & v : points)
 	{
-		core::TriMesh::VertexHandle vh = _triMesh->add_vertex(core::TriMesh::Point(v.data()));
+		core::PolyMesh::VertexHandle vh = _triMesh->add_vertex(core::PolyMesh::Point(v.data()));
 		vhs.push_back(vh);
 	}
 

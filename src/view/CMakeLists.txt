@@ -26,10 +26,10 @@ set(ACGVIEW_SRCS
 	ViewAdmin.h
 	ViewDocument.cpp
 	ViewDocument.h
-    ACGViewer.cpp
-    ACGViewer.h
-    SceneCoordSys.cpp
-    SceneCoordSys.h
+	ACGViewer.cpp
+	ACGViewer.h
+	SceneCoordSys.cpp
+	SceneCoordSys.h
 	ViewFeatureBase.h
 	ViewFeatureBase.cpp
 	ViewPolyFeature.h

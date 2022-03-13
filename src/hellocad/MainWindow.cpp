@@ -111,7 +111,7 @@ void MainWindow::slotNewDocument()
 	d->_currentDocName = doc->documentName();
 
 	view::Document * viewDoc = dynamicCast<view::Document>(view::Admin::instance().viewDocument(doc));
-	this->setCentralWidget(viewDoc->acgViewer());
+	d->_centerView->addTab(viewDoc->acgViewer(), doc->documentName());
 }
 
 void MainWindow::slotCreateCube()

@@ -56,7 +56,7 @@ bool CubeFeature::excute()
 	points.emplace_back(0, width, 0);
 	points.emplace_back(0, 0, height);
 	points.emplace_back(length, 0, height);
-	points.emplace_back(0, width, height);
+	points.emplace_back(length, width, height);
 	points.emplace_back(0, width, height);
 
 	std::vector<core::PolyMesh::VertexHandle> vhs;

@@ -59,7 +59,7 @@ void ViewPolyFeature::attachDataFeature(const common::FeatureBase* data)
 		_materialNode->set_color(ACG::Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
 
 		_triangleNode = new ACG::SceneGraph::TriangleNode(_materialNode, (nodeName + "Triangles").c_str());
-		_triangleNode->drawMode(ACG::SceneGraph::DrawModes::WIREFRAME);
+		_triangleNode->drawMode(ACG::SceneGraph::DrawModes::SOLID_FLAT_SHADED);
 #if 0
 		std::stringstream sstr;
 		sstr << data->id() << "::" << "ShaderNode";

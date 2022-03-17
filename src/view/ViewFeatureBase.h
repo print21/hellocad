@@ -34,6 +34,9 @@ namespace view
 		virtual void attachDataFeature(const common::FeatureBase* data);
 		virtual bool excute() override;
 
+	protected Q_SLOTS:
+		void slotDataFeatureStatusChanged(const common::FeatureBase* sender, STATUS st, bool value);
+
 	protected:
 		friend class view::Document;
 		const common::FeatureBase* _data;

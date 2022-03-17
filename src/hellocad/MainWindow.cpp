@@ -33,7 +33,11 @@ namespace hellocad
 		TreeView* _treeView;
 
 		AttributeView* _attributeView;
+
+		static MainWindow* _mainWindow;
 	};
+
+	MainWindow * MainWindowPrivate::_mainWindow = nullptr;
 }
 
 using namespace hellocad;
@@ -41,6 +45,9 @@ using namespace hellocad;
 MainWindow::MainWindow(QWidget * parent /*= nullptr*/)
 	:d_ptr(new MainWindowPrivate())
 {
+	Q_ASSERT(MainWindowPrivate::_mainWindow == nullptr);
+	MainWindowPrivate::_mainWindow = this;
+
 	this->setWindowTitle(tr("HelloCAD a simple cad platform"));
 
 	this->initToolBar();
@@ -53,6 +60,11 @@ MainWindow::MainWindow(QWidget * parent /*= nullptr*/)
 MainWindow::~MainWindow()
 {
 
+}
+
+MainWindow* MainWindow::mainWindow()
+{
+	return MainWindowPrivate::_mainWindow;
 }
 
 void MainWindow::initWindow()
@@ -93,9 +105,20 @@ void MainWindow::initToolBar()
 
 		QAction * newCube = docTbr->addAction("Cube");
 
+		docTbr->addSeparator();
+
+		QAction* updateAct = docTbr->addAction("Update");
+
 		connect(newDoc, SIGNAL(triggered()), this, SLOT(slotNewDocument()));
 		connect(newCube, SIGNAL(triggered()), this, SLOT(slotCreateCube()));
+		connect(updateAct, SIGNAL(triggered()), this, SLOT(slotUpdateDocument()));
 	}
+}
+
+AttributeView* MainWindow::attributeView() const
+{
+	Q_D(const MainWindow);
+	return d->_attributeView;
 }
 
 void MainWindow::slotNewDocument()
@@ -124,6 +147,19 @@ void MainWindow::slotCreateCube()
 	}
 
 	doc->appendFeature("data::CubeFeature");
+	doc->update();
+}
+
+void MainWindow::slotUpdateDocument()
+{
+	Q_D(MainWindow);
+
+	common::DocumentBase * doc = data::Admin::instance().documentByName(d->_currentDocName);
+	if (doc == nullptr)
+	{
+		return;
+	}
+
 	doc->update();
 }
 

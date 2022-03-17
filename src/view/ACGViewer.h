@@ -30,6 +30,8 @@ namespace view
 		void addToViewer(ACG::SceneGraph::SeparatorNode * node);
 		void removeFromViewer(ACG::SceneGraph::SeparatorNode * node);
 
+		void fitAll();
+
 	protected:
 		void initScene();
 

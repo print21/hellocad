@@ -4,11 +4,14 @@
 
 #include "TreeView.h"
 #include "TreeItems.h"
+#include "MainWindow.h"
+#include "AttributeView.h"
 
 #include <QHeaderView>
 
 #include <data/DataDocument.h>
 #include <data/DataAdmin.h>
+#include <data/DataFeatureBase.h>
 
 using namespace hellocad;
 
@@ -79,8 +82,11 @@ void TreeView::slotItemSelectChanged()
 
 	if (!featItems.empty())
 	{
-		//todo;
-		return;
+		MainWindow::mainWindow()->attributeView()->setFeature(featItems.front()->feature());
+	}
+	else
+	{
+		MainWindow::mainWindow()->attributeView()->setFeature(nullptr);
 	}
 }
 

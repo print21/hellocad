@@ -105,5 +105,6 @@ void Document::slotAfterDataUpdate(const common::DocumentBase* caller)
 	Q_ASSERT(d->_dataDoc == caller);
 
 	this->update();
+	d->_acgViewer->fitAll();
 }
 

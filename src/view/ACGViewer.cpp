@@ -103,3 +103,9 @@ void ACGViewer::initScene()
 	}
 }
 
+void ACGViewer::fitAll()
+{
+	Q_D(ACGViewer);
+	d->_viewer->viewAll();
+}
+

@@ -9,6 +9,8 @@
 
 namespace hellocad
 {
+	class AttributeView;
+
 	class MainWindowPrivate;
 	class MainWindow : public QMainWindow
 	{
@@ -16,6 +18,10 @@ namespace hellocad
 	public:
 		MainWindow(QWidget * parent = nullptr);
 		~MainWindow();
+
+		static MainWindow* mainWindow();
+
+		AttributeView* attributeView() const;
 
 	protected:
 		void initWindow();
@@ -27,6 +33,7 @@ namespace hellocad
 	protected Q_SLOTS:
 		void slotNewDocument();
 		void slotCreateCube();
+		void slotUpdateDocument();
 
 	protected:
 		Q_DECLARE_PRIVATE(MainWindow);

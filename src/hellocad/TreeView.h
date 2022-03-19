@@ -23,5 +23,6 @@ namespace hellocad
 	protected Q_SLOTS:
 		void slotItemSelectChanged();
 		void slotNewDocument(const common::DocumentBase* doc);
+		void slotItemValueChanged(QTreeWidgetItem* item, int column);
 	};
 }

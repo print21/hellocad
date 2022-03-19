@@ -30,6 +30,12 @@ namespace view
 
 		virtual ACG::SceneGraph::SeparatorNode* rootNode() const = 0;
 
+		void hide();
+
+		void show();
+
+		bool visible() const;
+
 	protected:
 		virtual void attachDataFeature(const common::FeatureBase* data);
 		virtual bool excute() override;

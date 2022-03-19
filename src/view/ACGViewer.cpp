@@ -109,3 +109,9 @@ void ACGViewer::fitAll()
 	d->_viewer->viewAll();
 }
 
+void ACGViewer::updateViewer()
+{
+	Q_D(ACGViewer);
+	d->_viewer->updateGL();
+}
+

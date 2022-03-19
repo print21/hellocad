@@ -18,6 +18,7 @@ namespace common
 namespace view
 {
 	class ACGViewer;
+	class ViewFeatureBase;
 
 	class DocumentPrivate;
 	class VIEW_EXPORT Document : public common::DocumentBase
@@ -33,6 +34,8 @@ namespace view
 		const common::DocumentBase * dataDocument() const;
 
 		ACGViewer* acgViewer() const;
+
+		ViewFeatureBase* viewFeature(const common::FeatureBase * data) const;
 
 	protected Q_SLOTS:
 		void slotAppendDataFeature(const common::DocumentBase* caller, const common::FeatureBase* obj);

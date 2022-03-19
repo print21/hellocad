@@ -6,6 +6,8 @@
 #include "ViewDocument.h"
 #include "ACGViewer.h"
 
+#include <common/AttributeBoolean.h>
+
 #include <core/VectorT.h>
 #include <data/DataFeatureBase.h>
 #include <acg/Math/VectorT.hh>
@@ -13,6 +15,8 @@
 #include <acg/Scenegraph/TriangleNode.hh>
 #include <acg/Scenegraph/ShaderNode.hh>
 #include <acg/Scenegraph/MeshNode2T.hh>
+
+#include <QRandomGenerator>
 
 namespace view
 {
@@ -46,6 +50,24 @@ ViewPolyFeature::~ViewPolyFeature()
 	}
 }
 
+void ViewPolyFeature::afterChange(const common::AttributeBase* prop)
+{
+	common::AttributeBoolean * visAttr = this->attribute<common::AttributeBoolean>("Visibility");
+	if (prop == visAttr)
+	{
+		if (visAttr->value())
+		{
+			this->_rootNode->set_status(ACG::SceneGraph::BaseNode::Active);
+		}
+		else
+		{
+			this->_rootNode->set_status(ACG::SceneGraph::BaseNode::HideSubtree);
+		}
+	}
+
+	ViewFeatureBase::afterChange(prop);
+}
+
 void ViewPolyFeature::attachDataFeature(const common::FeatureBase* data)
 {
 	ViewFeatureBase::attachDataFeature(data);
@@ -56,7 +78,10 @@ void ViewPolyFeature::attachDataFeature(const common::FeatureBase* data)
 		std::string nodeName = std::to_string(data->id());
 
 		_materialNode = new ACG::SceneGraph::MaterialNode(_rootNode, (nodeName + "::Material").c_str());
-		_materialNode->set_color(ACG::Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
+		int red = QRandomGenerator::global()->bounded(255);
+		int green = QRandomGenerator::global()->bounded(255);
+		int blue = QRandomGenerator::global()->bounded(255);
+		_materialNode->set_color(ACG::Vec4f(red / 255.0f, green / 255.0f, blue / 255.0f, 1.0f));
 
 		_triangleNode = new ACG::SceneGraph::TriangleNode(_materialNode, (nodeName + "Triangles").c_str());
 		_triangleNode->drawMode(ACG::SceneGraph::DrawModes::SOLID_FLAT_SHADED);

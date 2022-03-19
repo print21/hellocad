@@ -32,6 +32,8 @@ namespace view
 
 		void fitAll();
 
+		void updateViewer();
+
 	protected:
 		void initScene();
 

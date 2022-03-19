@@ -69,6 +69,22 @@ const common::DocumentBase * Document::dataDocument() const
 	return d->_dataDoc;
 }
 
+ViewFeatureBase* Document::viewFeature(const common::FeatureBase* data) const
+{
+	Q_D(const Document);
+	QString type = data->typeName();
+	Q_ASSERT(data->isInherits("data::FeatureBase"));
+	Q_ASSERT(data->document() == d->_dataDoc);
+
+	auto it = d->_featureMap.find(data->id());
+	if (it == d->_featureMap.end())
+	{
+		return nullptr;
+	}
+
+	return it.value();
+}
+
 void Document::slotAppendDataFeature(const common::DocumentBase* caller, const common::FeatureBase* obj)
 {
 	Q_D(Document);

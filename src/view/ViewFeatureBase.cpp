@@ -4,6 +4,8 @@
 
 #include "ViewFeatureBase.h"
 
+#include <common/AttributeBoolean.h>
+
 using namespace view;
 
 CLASS_SOURCE_ABSTRACT(view::ViewFeatureBase);
@@ -11,12 +13,36 @@ CLASS_SOURCE_ABSTRACT(view::ViewFeatureBase);
 ViewFeatureBase::ViewFeatureBase()
 	:_data(nullptr)
 {
-
+	this->insertAttribute("Visibility", "common::AttributeBoolean", true, static_cast<unsigned short>(common::AttributeBase::TYPE::SILENT));
 }
 
 ViewFeatureBase::~ViewFeatureBase()
 {
 
+}
+
+void ViewFeatureBase::hide()
+{
+	common::AttributeBoolean* visAttr = this->attribute<common::AttributeBoolean>("Visibility");
+	if (visAttr->value())
+	{
+		visAttr->setValue(false);
+	}
+}
+
+void ViewFeatureBase::show()
+{
+	common::AttributeBoolean* visAttr = this->attribute<common::AttributeBoolean>("Visibility");
+	if (!visAttr->value())
+	{
+		visAttr->setValue(true);
+	}
+}
+
+bool ViewFeatureBase::visible() const
+{
+	common::AttributeBoolean * visAttr = this->attribute<common::AttributeBoolean>("Visibility");
+	return visAttr->value();
 }
 
 void ViewFeatureBase::attachDataFeature(const common::FeatureBase* data)

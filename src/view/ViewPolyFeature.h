@@ -36,6 +36,8 @@ namespace view
 
 		virtual bool excute() override;
 
+		virtual void afterChange(const common::AttributeBase* prop) override;
+
 	protected:
 		ACG::SceneGraph::SeparatorNode * _rootNode;
 		ACG::SceneGraph::MaterialNode* _materialNode;

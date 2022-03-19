@@ -4,8 +4,14 @@
 
 #include "TreeItems.h"
 
+#include <common/AttributeBoolean.h>
+
 #include <data/DataDocument.h>
 #include <data/DataFeatureBase.h>
+
+#include <view/ViewAdmin.h>
+#include <view/ViewDocument.h>
+#include <view/ViewFeatureBase.h>
 
 using namespace hellocad;
 
@@ -77,14 +83,34 @@ const data::Document* DocumentItem::document() const
 //////////////////////////////////////////////////////////////////////////
 
 FeatureItemObject::FeatureItemObject(data::FeatureBase* feat, FeatureItem* item, QObject* parent /*= nullptr*/)
-	:QObject(nullptr), _feature(feat)
+	:QObject(nullptr), _dataFeature(feat), _item(item)
 {
+	common::DocumentBase* dataDoc = _dataFeature->document();
+	view::Document * viewDoc = dynamicCast<view::Document>(view::Admin::instance().viewDocument(dataDoc));
+	Q_ASSERT(viewDoc != nullptr);
 
+	_viewFeature = viewDoc->viewFeature(feat);
+
+	_item->treeWidget()->blockSignals(true);
+	_item->setCheckState(2, _viewFeature->visible() ? Qt::Checked : Qt::Unchecked);
+	_item->treeWidget()->blockSignals(false);
 }
 
 FeatureItemObject::~FeatureItemObject()
 {
 
+}
+
+void FeatureItemObject::slotViewAttributeChanged(const common::FeatureBase* feat, const common::AttributeBase* attr)
+{
+	if (feat == _viewFeature)
+	{
+		common::AttributeBoolean * visAttr = feat->attribute<common::AttributeBoolean>("Visibility");
+		if (visAttr != nullptr)
+		{
+			_item->setCheckState(2, visAttr->value() ? Qt::Checked : Qt::Unchecked);
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -95,6 +121,9 @@ FeatureItem::FeatureItem(data::FeatureBase* feat, QTreeWidgetItem* item)
 	this->setText(0, QString::number(feat->id()));
 	this->setText(1, QString::number(feat->id()));
 	this->setData(0, Qt::UserRole, QVariant::fromValue(feat->id()));
+	this->setTextAlignment(0, Qt::AlignCenter);
+	this->setTextAlignment(1, Qt::AlignCenter);
+	this->setTextAlignment(2, Qt::AlignCenter);
 }
 
 FeatureItem::~FeatureItem()
@@ -102,7 +131,12 @@ FeatureItem::~FeatureItem()
 
 }
 
-const data::FeatureBase* FeatureItem::feature() const
+const data::FeatureBase* FeatureItem::dataFeature() const
 {
-	return _object->_feature;
+	return _object->_dataFeature;
+}
+
+const view::ViewFeatureBase* FeatureItem::viewFeature() const
+{
+	return _object->_viewFeature;
 }

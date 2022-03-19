@@ -13,6 +13,10 @@
 #include <data/DataAdmin.h>
 #include <data/DataFeatureBase.h>
 
+#include <view/ViewDocument.h>
+#include <view/ViewFeatureBase.h>
+#include <view/ACGViewer.h>
+
 using namespace hellocad;
 
 TreeView::TreeView(QWidget* parent)
@@ -24,7 +28,7 @@ TreeView::TreeView(QWidget* parent)
 	this->setRootIsDecorated(true);
 
 	QStringList labels;
-	labels << tr("Name") << tr("id");
+	labels << tr("Name") << tr("id") << tr("Visibility");
 
 	this->setHeaderLabels(labels);
 	this->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -35,6 +39,7 @@ TreeView::TreeView(QWidget* parent)
 
 	connect(this, &QTreeWidget::itemSelectionChanged, this, &TreeView::slotItemSelectChanged);
 	connect(&(data::Admin::instance()), &data::Admin::signalNewDocument, this, &TreeView::slotNewDocument);
+	connect(this, &QTreeWidget::itemChanged, this, &TreeView::slotItemValueChanged);
 }
 
 TreeView::~TreeView()
@@ -82,11 +87,39 @@ void TreeView::slotItemSelectChanged()
 
 	if (!featItems.empty())
 	{
-		MainWindow::mainWindow()->attributeView()->setFeature(featItems.front()->feature());
+		MainWindow::mainWindow()->attributeView()->setFeature(featItems.front()->dataFeature());
 	}
 	else
 	{
 		MainWindow::mainWindow()->attributeView()->setFeature(nullptr);
 	}
+}
+
+void TreeView::slotItemValueChanged(QTreeWidgetItem* item, int column)
+{
+	if (item->type() != FEATURE_ITEM)
+	{
+		return;
+	}
+
+	if (column != 2)
+	{
+		return;
+	}
+
+	FeatureItem* featItem = static_cast<FeatureItem*>(item);
+	const view::ViewFeatureBase* viewFeat = featItem->viewFeature();
+	if (item->checkState(column) == Qt::Checked)
+	{
+		const_cast<view::ViewFeatureBase*>(viewFeat)->show();
+
+	}
+	else if (item->checkState(column) == Qt::Unchecked)
+	{
+		const_cast<view::ViewFeatureBase*>(viewFeat)->hide();
+	}
+
+	view::Document * viewDoc = dynamicCast<view::Document>(viewFeat->document());
+	viewDoc->acgViewer()->updateViewer();
 }
 

@@ -13,12 +13,18 @@ namespace common
 {
 	class DocumentBase;
 	class FeatureBase;
+	class AttributeBase;
 }
 
 namespace data
 {
 	class Document;
 	class FeatureBase;
+}
+
+namespace view
+{
+	class ViewFeatureBase;
 }
 
 namespace hellocad
@@ -70,9 +76,13 @@ namespace hellocad
 		friend class FeatureItem;
 		FeatureItemObject(data::FeatureBase * feat, FeatureItem * item, QObject* parent = nullptr);
 
+	protected Q_SLOTS:
+		void slotViewAttributeChanged(const common::FeatureBase * feat, const common::AttributeBase * attr);
+
 	protected:
 		FeatureItem* _item;
-		data::FeatureBase* _feature;
+		data::FeatureBase* _dataFeature;
+		view::ViewFeatureBase* _viewFeature;
 	};
 
 	class FeatureItem : public QTreeWidgetItem
@@ -81,7 +91,9 @@ namespace hellocad
 		FeatureItem(data::FeatureBase * feat, QTreeWidgetItem* item);
 		~FeatureItem();
 
-		const data::FeatureBase* feature() const;
+		const data::FeatureBase* dataFeature() const;
+
+		const view::ViewFeatureBase* viewFeature() const;
 
 	protected:
 		QScopedPointer<FeatureItemObject> _object;

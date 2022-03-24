@@ -33,6 +33,7 @@ namespace hellocad
 	protected Q_SLOTS:
 		void slotNewDocument();
 		void slotCreateCube();
+		void slotCreateSphere();
 		void slotUpdateDocument();
 
 	protected:

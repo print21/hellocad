@@ -35,6 +35,7 @@ bool CubeFeature::excute()
 	{
 		_triMesh = std::make_unique<core::PolyMesh>();
 		_triMesh->request_face_normals();
+		_triMesh->request_vertex_normals();
 	}
 	else
 	{
@@ -87,6 +88,7 @@ bool CubeFeature::excute()
 	_triMesh->add_face(vhs[4], vhs[7], vhs[3]);
 
 	_triMesh->update_face_normals();
+	_triMesh->update_vertex_normals();
 
 	return true;
 }

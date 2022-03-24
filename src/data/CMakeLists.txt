@@ -19,6 +19,8 @@ set(DATA_LIBS
 set(FEATURE_SRCS
     DataCubeFeature.cpp
     DataCubeFeature.h
+    DataSphereFeature.cpp
+    DataSphereFeature.h
 )
 
 source_group("Features" FILES ${FEATURE_SRCS})

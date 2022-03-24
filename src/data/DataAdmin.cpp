@@ -7,6 +7,7 @@
 #include "DataDocument.h"
 #include "DataFeatureBase.h"
 #include "DataCubeFeature.h"
+#include "DataSphereFeature.h"
 
 namespace data
 {
@@ -57,6 +58,7 @@ void Admin::init()
 	data::Document::init();
 	data::FeatureBase::init();
 	data::CubeFeature::init();
+	data::SphereFeature::init();
 }
 
 Admin & Admin::instance()

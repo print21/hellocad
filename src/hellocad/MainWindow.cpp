@@ -104,6 +104,7 @@ void MainWindow::initToolBar()
 		docTbr->addSeparator();
 
 		QAction * newCube = docTbr->addAction("Cube");
+		QAction* newSphere = docTbr->addAction("Sphere");
 
 		docTbr->addSeparator();
 
@@ -111,6 +112,7 @@ void MainWindow::initToolBar()
 
 		connect(newDoc, SIGNAL(triggered()), this, SLOT(slotNewDocument()));
 		connect(newCube, SIGNAL(triggered()), this, SLOT(slotCreateCube()));
+		connect(newSphere, SIGNAL(triggered()), this, SLOT(slotCreateSphere()));
 		connect(updateAct, SIGNAL(triggered()), this, SLOT(slotUpdateDocument()));
 	}
 }
@@ -147,6 +149,19 @@ void MainWindow::slotCreateCube()
 	}
 
 	doc->appendFeature("data::CubeFeature");
+	doc->update();
+}
+
+void MainWindow::slotCreateSphere()
+{
+	Q_D(MainWindow);
+	data::Document* doc = dynamicCast<data::Document>(data::Admin::instance().documentByName(d->_currentDocName));
+	if (doc == nullptr)
+	{
+		return;
+	}
+
+	doc->appendFeature("data::SphereFeature");
 	doc->update();
 }
 

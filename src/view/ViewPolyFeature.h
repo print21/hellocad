@@ -11,8 +11,9 @@ namespace ACG
 	namespace SceneGraph
 	{
 		class MaterialNode;
-		class TriangleNode;
 #if 0
+		class TriangleNode;
+#else
 		class MeshNodeBase;
 		class ShaderNode;
 #endif
@@ -39,10 +40,11 @@ namespace view
 		virtual void afterChange(const common::AttributeBase* prop) override;
 
 	protected:
-		ACG::SceneGraph::SeparatorNode * _rootNode;
+		ACG::SceneGraph::SeparatorNode* _rootNode;
 		ACG::SceneGraph::MaterialNode* _materialNode;
-		ACG::SceneGraph::TriangleNode* _triangleNode;
 #if 0
+		ACG::SceneGraph::TriangleNode* _triangleNode;
+#else
 		ACG::SceneGraph::MeshNodeBase* _meshNode;
 		ACG::SceneGraph::ShaderNode* _shaderNode;
 #endif

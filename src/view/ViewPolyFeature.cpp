@@ -14,6 +14,7 @@
 #include <acg/Scenegraph/SeparatorNode.hh>
 #include <acg/Scenegraph/TriangleNode.hh>
 #include <acg/Scenegraph/ShaderNode.hh>
+#include <acg/Scenegraph/EnvMapNode.hh>
 #include <acg/Scenegraph/MeshNode2T.hh>
 
 #include <QRandomGenerator>
@@ -89,11 +90,15 @@ void ViewPolyFeature::attachDataFeature(const common::FeatureBase* data)
 		_rootNode = new ACG::SceneGraph::SeparatorNode(nullptr, std::to_string(data->id()));
 		std::string nodeName = std::to_string(data->id());
 
-		_materialNode = new ACG::SceneGraph::MaterialNode(_rootNode, (nodeName + "::Material").c_str());
 		int red = QRandomGenerator::global()->bounded(255);
 		int green = QRandomGenerator::global()->bounded(255);
 		int blue = QRandomGenerator::global()->bounded(255);
+
+		_materialNode = new ACG::SceneGraph::MaterialNode(_rootNode, (nodeName + "::Material").c_str());
 		_materialNode->set_color(ACG::Vec4f(red / 255.0f, green / 255.0f, blue / 255.0f, 1.0f));
+
+		_textureNode = new ACG::SceneGraph::EnvMapNode(_materialNode, (nodeName + "::Texture").c_str(), true, GL_LINEAR_MIPMAP_LINEAR);
+		_textureNode->drawMode(ACG::SceneGraph::DrawModes::SOLID_ENV_MAPPED);
 #if 0
 
 		_triangleNode = new ACG::SceneGraph::TriangleNode(_materialNode, (nodeName + "Triangles").c_str());
@@ -167,18 +172,23 @@ bool ViewPolyFeature::excute()
 	sstr << dataObjId << "::" << "MeshNode";
 	if (_meshNode != nullptr)
 	{
-		auto it = _rootNode->find(_meshNode);
-		if (it != _rootNode->childrenEnd())
-		{
-			_rootNode->remove(it);
-		}
-
-		delete _meshNode;
+		delete _meshNode;//remove from parent in destruct.
 		_meshNode = nullptr;
 	}
 
-	_meshNode = new TriMeshNode(*mesh, _materialNode, sstr.str().c_str());
-	_meshNode->drawMode(ACG::SceneGraph::DrawModes::SOLID_FLAT_SHADED);
+	_meshNode = new TriMeshNode(*mesh, _textureNode, sstr.str().c_str());
+	if (mesh->has_vertex_normals())
+	{
+		_meshNode->drawMode(ACG::SceneGraph::DrawModes::SOLID_SMOOTH_SHADED);
+	}
+	else if (mesh->has_face_normals())
+	{
+		_meshNode->drawMode(ACG::SceneGraph::DrawModes::SOLID_FLAT_SHADED);
+	}
+	else
+	{
+		std::cerr << "triangle mesh has no normals." << "\n";
+	}
 	static_cast<TriMeshNode*>(_meshNode)->update_geometry();
 #endif
 	return true;

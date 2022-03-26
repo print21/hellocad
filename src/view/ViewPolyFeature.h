@@ -11,12 +11,9 @@ namespace ACG
 	namespace SceneGraph
 	{
 		class MaterialNode;
-#if 0
-		class TriangleNode;
-#else
+		class EnvMapNode;
 		class MeshNodeBase;
 		class ShaderNode;
-#endif
 	}
 }
 
@@ -42,12 +39,9 @@ namespace view
 	protected:
 		ACG::SceneGraph::SeparatorNode* _rootNode;
 		ACG::SceneGraph::MaterialNode* _materialNode;
-#if 0
-		ACG::SceneGraph::TriangleNode* _triangleNode;
-#else
+		ACG::SceneGraph::EnvMapNode* _textureNode;
 		ACG::SceneGraph::MeshNodeBase* _meshNode;
 		ACG::SceneGraph::ShaderNode* _shaderNode;
-#endif
 	};
 }
 
